@@ -56,8 +56,12 @@ static udata_t *udata_remove(udata_t *udata)
     { return RB_REMOVE(udatatree_s, &Head, udata); }
 static udata_t *udata_insert(udata_t *udata) 
     { return RB_INSERT(udatatree_s, &Head, udata); }
-static udata_t *udata_search(uintptr_t id) 
-    { udata_t tmp; tmp.id = id; return RB_FIND(udatatree_s, &Head, &tmp); }
+static udata_t *udata_search(uintptr_t id)
+    {
+    udata_t tmp;
+    tmp.id = id;
+    return RB_FIND(udatatree_s, &Head, &tmp);
+    }
 static udata_t *udata_first(uintptr_t id) 
     { udata_t tmp; tmp.id = id; return RB_NFIND(udatatree_s, &Head, &tmp); }
 #if 0
@@ -88,7 +92,10 @@ void *udata_new(lua_State *L, size_t size, const void *ptr, const char *mt)
     udata_t *udata;
 //  printf("new object %p\n", ptr);
     if((udata = (udata_t*)malloc(sizeof(udata_t))) == NULL) 
-        { luaL_error(L, "cannot allocate memory"); return NULL; }
+        {
+        luaL_error(L, "cannot allocate memory");
+        return NULL;
+        }
     memset(udata, 0, sizeof(udata_t));
     udata->mem = lua_newuserdata(L, size);
     if(!udata->mem)
